@@ -68,7 +68,7 @@
             100% { background-position: 200% 50%; }
         }
 
-        /* Advanced Glassmorphism Cards */
+        /* Glassmorphism Cards */
         .glass-card {
             background: rgba(255, 253, 247, 0.75);
             backdrop-filter: blur(16px);
@@ -84,7 +84,7 @@
             border-color: rgba(212, 175, 55, 0.8);
         }
 
-        /* Rigid Responsive Portrait Frame */
+        /* Portrait Frame Container */
         .portrait-container {
             width: 100%;
             max-width: 320px;
@@ -113,7 +113,7 @@
             opacity: 0.7;
         }
 
-        /* Golden Aura Glow Effect */
+        /* Golden Glow Effect */
         .gold-glow {
             position: relative;
         }
@@ -132,7 +132,7 @@
             opacity: 1;
         }
 
-        /* Equalizer Animation */
+        /* Audio Equalizer */
         @keyframes bounce-bar {
             0%, 100% { height: 4px; }
             50% { height: 18px; }
@@ -191,7 +191,6 @@
     <!-- Audio Element -->
     <audio id="nadaswaramAudio" loop preload="auto" crossorigin="anonymous">
         <source src="https://ia801503.us.archive.org/15/items/NadaswaramWeddingMusic/Nadaswaram.mp3" type="audio/mpeg">
-        <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_24a259c8fa.mp3" type="audio/mpeg">
     </audio>
 
     <main class="relative z-10 pt-6">
@@ -215,13 +214,13 @@
             
             <p class="text-maroon-800 font-serif italic text-lg sm:text-xl mb-6">Solicit your presence &amp; blessings on this sacred occasion</p>
             
-            <!-- Fixed Portrait Photo Container with Error Handling & Fallbacks -->
+            <!-- Photo Container -->
             <div class="my-6 px-4 w-full">
                 <div class="portrait-container">
                     <div class="portrait-frame">
                         <div class="w-full h-full overflow-hidden rounded-[1.7rem] bg-stone-900 relative">
                             <img id="coupleImage" 
-                                 src="IMG_20260808_130919.jpg" 
+                                 src="couple.jpg" 
                                  alt="Abhiraam & Gayathri" 
                                  onerror="handleImageError(this)"
                                  class="w-full h-full object-cover hover:scale-105 transition-transform duration-700 ease-out">
@@ -414,23 +413,19 @@
 
     <!-- Interactive Script -->
     <script>
-        // Image Fallback Handling Function
+        // Image Fallback Handling (Case Sensitivity Check)
         function handleImageError(img) {
-            console.warn("Local image file failed to load. Trying alternative case names or fallbacks.");
-            const possibleNames = ['img_20260808_130919.jpg', 'IMG_20260808_130919.JPG', 'couple.jpg', 'wedding.jpg'];
+            console.warn("Retrying image loading with common file extensions...");
+            const possibleNames = ['couple.JPG', 'couple.jpeg', 'couple.png', 'IMG_20260808_130919.jpg'];
             let currentAttempt = parseInt(img.getAttribute('data-attempt') || 0);
             
             if (currentAttempt < possibleNames.length) {
                 img.setAttribute('data-attempt', currentAttempt + 1);
                 img.src = possibleNames[currentAttempt];
-            } else {
-                // If all local file checks fail, render an elegant styled placeholder
-                img.onerror = null; // Prevent loop
-                img.src = "https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&q=80&w=800";
             }
         }
 
-        // Floating Sparkle Particles Effect (Canvas)
+        // Particle Background
         const canvas = document.getElementById('particleCanvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
@@ -525,7 +520,6 @@
                 musicIcon.className = "fa-solid fa-pause text-gold-400 text-base ml-1";
                 equalizer.classList.add('playing');
             }).catch(error => {
-                console.log("Playback interaction required:", error);
                 musicStatusText.innerText = "Tap to Play";
                 isPlaying = false;
             });
@@ -561,7 +555,7 @@
         document.addEventListener('click', startAudioOnInteraction, { once: true });
         document.addEventListener('touchstart', startAudioOnInteraction, { once: true });
 
-        // Deployed Google Apps Script Endpoint
+        // Google Apps Script RSVP Endpoint
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzk8df2f07G6MQlaZpX0YfHEcmR6tDq1_lW07kb6DN0FSmX5hF-gXW1x4fAdKTeeWLphA/exec";
 
         const form = document.getElementById('rsvpForm');
