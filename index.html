@@ -175,9 +175,36 @@
             opacity: 1;
             transform: translateY(0) scale(1);
         }
+
+        /* Gentle Pulse Animation */
+        @keyframes pulse-slow {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.85; }
+        }
+        .animate-pulse-slow {
+            animation: pulse-slow 2.5s infinite ease-in-out;
+        }
     </style>
 </head>
 <body class="bg-kasavu text-stone-800 font-sans antialiased selection:bg-gold-500 selection:text-white pb-20 relative overflow-x-hidden">
+
+    <!-- Audio Autoplay Welcome Overlay -->
+    <div id="welcomeOverlay" class="fixed inset-0 z-[100] bg-maroon-900/95 backdrop-blur-lg flex flex-col justify-center items-center text-center p-6 transition-opacity duration-700 ease-out cursor-pointer">
+        <div class="max-w-md w-full glass-card p-8 rounded-3xl border-2 border-gold-500/60 shadow-2xl flex flex-col items-center">
+            <div class="w-20 h-20 rounded-full bg-gold-500/20 border-2 border-gold-400 flex items-center justify-center text-gold-300 text-3xl mb-6 animate-pulse-slow gold-glow">
+                <i class="fa-solid fa-music"></i>
+            </div>
+            <span class="font-malayalam text-gold-400 text-lg font-bold mb-1">സ്വാഗതം</span>
+            <h2 class="text-3xl font-serif font-black text-gold-300 mb-2">Abhiraam &amp; Gayathri</h2>
+            <p class="text-stone-300 text-sm font-serif italic mb-6">Wedding Ceremony Invitation</p>
+            
+            <button class="gold-glow w-full py-4 px-8 bg-gradient-to-r from-gold-600 via-gold-500 to-gold-600 text-maroon-900 font-serif font-bold text-base rounded-full shadow-2xl transition hover:scale-105 flex items-center justify-center gap-3">
+                <i class="fa-solid fa-envelope-open-text text-xl"></i>
+                <span>Tap to Open Invitation</span>
+            </button>
+            <p class="text-[11px] text-gold-400/80 mt-4 tracking-wider uppercase font-semibold">Includes Music Experience</p>
+        </div>
+    </div>
 
     <!-- Interactive Canvas Particle Layer -->
     <canvas id="particleCanvas" class="fixed inset-0 pointer-events-none z-0"></canvas>
@@ -201,7 +228,7 @@
         </button>
     </div>
 
-    <!-- Audio Element matched precisely to your repo file name -->
+    <!-- Audio Element sourcing from repository file -->
     <audio id="bgAudio" loop preload="auto">
         <source src="Meendum%20Pirandheno.mp3" type="audio/mpeg">
         <source src="Meendum Pirandheno.mp3" type="audio/mpeg">
@@ -389,13 +416,74 @@
 
     <!-- Interactive Script -->
     <script>
-        // Scroll Intersection Observer for Image Reveal
-        document.addEventListener("DOMContentLoaded", () => {
-            const observerOptions = {
-                root: null,
-                threshold: 0.15
-            };
+        const audio = document.getElementById('bgAudio');
+        const welcomeOverlay = document.getElementById('welcomeOverlay');
+        const musicToggleBtn = document.getElementById('musicToggleBtn');
+        const musicStatusText = document.getElementById('musicStatusText');
+        const musicIcon = document.getElementById('musicIcon');
+        const equalizer = document.getElementById('equalizer');
 
+        let isPlaying = false;
+
+        // Set low background volume (20%)
+        audio.volume = 0.2;
+
+        function playAudio() {
+            audio.play().then(() => {
+                isPlaying = true;
+                musicStatusText.innerText = "Pause";
+                musicIcon.className = "fa-solid fa-pause text-gold-400 text-base ml-1";
+                equalizer.classList.add('playing');
+            }).catch(error => {
+                console.warn("Autoplay restricted:", error);
+            });
+        }
+
+        function pauseAudio() {
+            audio.pause();
+            isPlaying = false;
+            musicStatusText.innerText = "Play Audio";
+            musicIcon.className = "fa-solid fa-music text-gold-400 text-base ml-1";
+            equalizer.classList.remove('playing');
+        }
+
+        // Welcome overlay trigger to bypass autoplay restrictions immediately
+        function handleEnterSite() {
+            playAudio();
+            welcomeOverlay.classList.add('opacity-0', 'pointer-events-none');
+            setTimeout(() => {
+                welcomeOverlay.style.display = 'none';
+            }, 700);
+        }
+
+        welcomeOverlay.addEventListener('click', handleEnterSite);
+        welcomeOverlay.addEventListener('touchstart', handleEnterSite);
+
+        // Music toggle button function
+        musicToggleBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (isPlaying) {
+                pauseAudio();
+            } else {
+                playAudio();
+            }
+        });
+
+        // Pause audio when tab is minimized or switched
+        document.addEventListener("visibilitychange", () => {
+            if (document.hidden) {
+                pauseAudio();
+            }
+        });
+
+        // Pause audio when leaving or unloading the page
+        window.addEventListener("pagehide", () => {
+            pauseAudio();
+        });
+
+        // Scroll Intersection Observer
+        document.addEventListener("DOMContentLoaded", () => {
+            const observerOptions = { root: null, threshold: 0.15 };
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -410,7 +498,6 @@
 
         // Image Fallback Handling
         function handleImageError(img) {
-            console.warn("Retrying image loading with common file extensions...");
             const possibleNames = ['couple.png', 'couple.JPG', 'couple.jpeg', 'couple.jpg'];
             let currentAttempt = parseInt(img.getAttribute('data-attempt') || 0);
             
@@ -498,58 +585,6 @@
         }
         setInterval(updateCountdown, 1000);
         updateCountdown();
-
-        // Background Audio Controls
-        const audio = document.getElementById('bgAudio');
-        const musicToggleBtn = document.getElementById('musicToggleBtn');
-        const musicStatusText = document.getElementById('musicStatusText');
-        const musicIcon = document.getElementById('musicIcon');
-        const equalizer = document.getElementById('equalizer');
-
-        let isPlaying = false;
-
-        function playAudio() {
-            audio.play().then(() => {
-                isPlaying = true;
-                musicStatusText.innerText = "Pause";
-                musicIcon.className = "fa-solid fa-pause text-gold-400 text-base ml-1";
-                equalizer.classList.add('playing');
-            }).catch(error => {
-                musicStatusText.innerText = "Tap to Play";
-                isPlaying = false;
-            });
-        }
-
-        function pauseAudio() {
-            audio.pause();
-            isPlaying = false;
-            musicStatusText.innerText = "Play Audio";
-            musicIcon.className = "fa-solid fa-music text-gold-400 text-base ml-1";
-            equalizer.classList.remove('playing');
-        }
-
-        function toggleMusic(e) {
-            if (e) e.stopPropagation();
-            if (isPlaying) {
-                pauseAudio();
-            } else {
-                playAudio();
-            }
-        }
-
-        musicToggleBtn.addEventListener('click', toggleMusic);
-
-        // Autoplay trigger on initial click/tap anywhere
-        function startAudioOnInteraction() {
-            if (!isPlaying) {
-                playAudio();
-            }
-            document.removeEventListener('click', startAudioOnInteraction);
-            document.removeEventListener('touchstart', startAudioOnInteraction);
-        }
-
-        document.addEventListener('click', startAudioOnInteraction, { once: true });
-        document.addEventListener('touchstart', startAudioOnInteraction, { once: true });
     </script>
 </body>
 </html>
