@@ -233,16 +233,11 @@
                 Wedding Ceremony Invitation
             </p>
             
-            <!-- Interactive Tap Button -->
+            <!-- Interactive Tap Button (Opens main invitation without triggering audio) -->
             <button class="gold-glow relative overflow-hidden w-full py-4 px-8 bg-gradient-to-r from-gold-600 via-gold-400 to-gold-600 text-maroon-900 font-serif font-extrabold text-base rounded-full shadow-[0_10px_25px_rgba(212,175,55,0.3)] transition-all duration-300 group-hover:scale-105 flex items-center justify-center gap-3">
                 <i class="fa-solid fa-envelope-open-text text-xl animate-bounce"></i>
                 <span class="tracking-wider uppercase text-sm">Open Invitation</span>
             </button>
-            
-            <div class="flex items-center gap-2 mt-5 text-[11px] text-gold-400/90 font-medium tracking-widest uppercase">
-                <i class="fa-solid fa-music text-xs animate-pulse"></i>
-                <span>Includes Music Experience</span>
-            </div>
         </div>
     </div>
 
@@ -262,7 +257,7 @@
             </div>
             <div class="text-left hidden sm:block">
                 <p class="text-[10px] uppercase font-bold tracking-widest text-gold-300">Meendum Pirandheno</p>
-                <p id="musicStatusText" class="text-xs font-serif font-semibold text-white">Tap to Play</p>
+                <p id="musicStatusText" class="text-xs font-serif font-semibold text-white">Tap Photo to Play</p>
             </div>
             <i id="musicIcon" class="fa-solid fa-music text-gold-400 text-base ml-1"></i>
         </button>
@@ -295,7 +290,7 @@
             
             <p class="text-maroon-800 font-serif italic text-lg sm:text-xl mb-6">Solicit your presence &amp; blessings on this sacred occasion</p>
             
-            <!-- Photo Container with Click-to-Play Audio Action -->
+            <!-- Photo Container with Sole Click-to-Play Audio Action -->
             <div class="my-6 px-4 w-full scroll-reveal">
                 <div id="photoMusicTrigger" class="portrait-container group cursor-pointer relative" title="Tap photo to play music">
                     <div class="portrait-frame transition-transform duration-700 ease-out group-hover:scale-[1.03] active:scale-95">
@@ -306,8 +301,8 @@
                                  onerror="handleImageError(this)"
                                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 ease-out">
                             
-                            <!-- Music Badge overlay on photo -->
-                            <div class="absolute bottom-3 left-1/2 -translate-x-1/2 bg-maroon-900/85 backdrop-blur-md text-gold-300 text-[11px] font-medium px-3 py-1 rounded-full border border-gold-500/60 shadow-lg flex items-center gap-1.5 opacity-90 group-hover:opacity-100 transition-opacity">
+                            <!-- Music Indicator Overlay on Photo -->
+                            <div class="absolute bottom-3 left-1/2 -translate-x-1/2 bg-maroon-900/90 backdrop-blur-md text-gold-300 text-[11px] font-medium px-3.5 py-1.5 rounded-full border border-gold-500/80 shadow-xl flex items-center gap-2 opacity-90 group-hover:opacity-100 transition-opacity">
                                 <i class="fa-solid fa-music text-gold-400 animate-pulse"></i>
                                 <span>Tap Photo for Music</span>
                             </div>
@@ -482,21 +477,20 @@
                 musicIcon.className = "fa-solid fa-pause text-gold-400 text-base ml-1";
                 equalizer.classList.add('playing');
             }).catch(error => {
-                console.warn("Autoplay restricted:", error);
+                console.warn("Audio playback issue:", error);
             });
         }
 
         function pauseAudio() {
             audio.pause();
             isPlaying = false;
-            musicStatusText.innerText = "Play Audio";
+            musicStatusText.innerText = "Tap Photo to Play";
             musicIcon.className = "fa-solid fa-music text-gold-400 text-base ml-1";
             equalizer.classList.remove('playing');
         }
 
-        // Welcome overlay trigger with scale/fade animations
+        // Welcome overlay transition ONLY (No audio triggered here)
         function handleEnterSite() {
-            playAudio();
             welcomeOverlay.classList.add('opacity-0', 'scale-105', 'pointer-events-none');
             setTimeout(() => {
                 welcomeOverlay.style.display = 'none';
@@ -516,7 +510,7 @@
             }
         });
 
-        // Music toggle button function
+        // Floating music toggle button function
         musicToggleBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             if (isPlaying) {
