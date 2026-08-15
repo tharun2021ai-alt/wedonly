@@ -194,16 +194,18 @@
                 <span class="eq-bar bar-3 h-3"></span>
             </div>
             <div class="text-left hidden sm:block">
-                <p class="text-[10px] uppercase font-bold tracking-widest text-gold-300">Nadaswaram</p>
+                <p class="text-[10px] uppercase font-bold tracking-widest text-gold-300">Meendum Pirandheno</p>
                 <p id="musicStatusText" class="text-xs font-serif font-semibold text-white">Tap to Play</p>
             </div>
             <i id="musicIcon" class="fa-solid fa-music text-gold-400 text-base ml-1"></i>
         </button>
     </div>
 
-    <!-- Audio Element -->
-    <audio id="nadaswaramAudio" loop preload="auto" crossorigin="anonymous">
-        <source src="https://ia801503.us.archive.org/15/items/NadaswaramWeddingMusic/Nadaswaram.mp3" type="audio/mpeg">
+    <!-- Audio Element sourcing from repo -->
+    <audio id="bgAudio" loop preload="auto" onerror="handleAudioError(this)">
+        <source src="meendum_pirantheno.mp3" type="audio/mpeg">
+        <source src="meendum_pirandheno.mp3" type="audio/mpeg">
+        <source src="song.mp3" type="audio/mpeg">
     </audio>
 
     <main class="relative z-10 pt-6">
@@ -347,7 +349,7 @@
                         </div>
                     </div>
 
-                    <!-- Transportation Details Added Here -->
+                    <!-- Transportation Details -->
                     <div class="mt-8 pt-6 border-t border-gold-300/40">
                         <h4 class="font-serif font-bold text-maroon-900 mb-4 text-sm uppercase tracking-wider">How to Reach</h4>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm text-stone-700">
@@ -375,66 +377,6 @@
                         <i class="fa-solid fa-map-location-dot"></i> Get Venue Directions (EBRASON Convention Centre)
                     </a>
                 </div>
-            </div>
-        </section>
-
-        <!-- RSVP Section -->
-        <section class="py-12 px-4">
-            <div class="max-w-2xl mx-auto glass-card rounded-3xl p-6 sm:p-10 relative overflow-hidden">
-                <div class="text-center mb-8">
-                    <span class="text-gold-700 font-serif text-xs uppercase tracking-widest block font-bold mb-1">Kindly Confirm Presence</span>
-                    <h2 class="text-3xl sm:text-4xl font-serif text-maroon-900 font-bold">RSVP</h2>
-                    <div class="w-12 h-0.5 bg-gold-500 mx-auto mt-2"></div>
-                </div>
-
-                <form id="rsvpForm" class="space-y-6">
-                    <div>
-                        <label for="fullName" class="block text-xs font-bold uppercase tracking-wider text-stone-700 mb-2">Full Name *</label>
-                        <input type="text" id="fullName" name="fullName" required placeholder="Your full name" class="w-full px-4 py-3.5 rounded-xl border border-gold-400/80 bg-white/80 focus:bg-white focus:ring-2 focus:ring-gold-500 outline-none transition text-sm shadow-sm">
-                    </div>
-
-                    <div>
-                        <label for="contact" class="block text-xs font-bold uppercase tracking-wider text-stone-700 mb-2">Phone Number / Email *</label>
-                        <input type="text" id="contact" name="contact" required placeholder="+91 9876543210" class="w-full px-4 py-3.5 rounded-xl border border-gold-400/80 bg-white/80 focus:bg-white focus:ring-2 focus:ring-gold-500 outline-none transition text-sm shadow-sm">
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-bold uppercase tracking-wider text-stone-700 mb-3">Attendance *</label>
-                        <div class="space-y-2 text-sm text-stone-700">
-                            <label class="flex items-center p-3.5 bg-white/80 border border-gold-300 rounded-xl hover:bg-gold-300/20 cursor-pointer transition">
-                                <input type="radio" name="attendance" value="Attending Wedding (Nov 25)" required checked class="text-gold-600 focus:ring-gold-500">
-                                <span class="ml-3 font-semibold text-maroon-900">Attending Wedding Ceremony (Nov 25)</span>
-                            </label>
-                            <label class="flex items-center p-3.5 bg-white/80 border border-gold-300 rounded-xl hover:bg-gold-300/20 cursor-pointer transition">
-                                <input type="radio" name="attendance" value="Regretfully Declining" class="text-gold-600 focus:ring-gold-500">
-                                <span class="ml-3 text-stone-500">Regretfully Declining</span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <div>
-                        <label for="guestCount" class="block text-xs font-bold uppercase tracking-wider text-stone-700 mb-2">Total Guests</label>
-                        <select id="guestCount" name="guestCount" class="w-full px-4 py-3.5 rounded-xl border border-gold-400/80 bg-white/80 focus:bg-white focus:ring-2 focus:ring-gold-500 outline-none transition text-sm shadow-sm">
-                            <option value="1">1 Guest</option>
-                            <option value="2">2 Guests</option>
-                            <option value="3">3 Guests</option>
-                            <option value="4">4 Guests</option>
-                            <option value="5+">5+ Guests</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label for="message" class="block text-xs font-bold uppercase tracking-wider text-stone-700 mb-2">Blessings &amp; Wishes</label>
-                        <textarea id="message" name="message" rows="3" placeholder="Share your heartfelt wishes..." class="w-full px-4 py-3.5 rounded-xl border border-gold-400/80 bg-white/80 focus:bg-white focus:ring-2 focus:ring-gold-500 outline-none transition text-sm shadow-sm"></textarea>
-                    </div>
-
-                    <button type="submit" id="submitBtn" class="gold-glow w-full bg-maroon-900 hover:bg-maroon-800 text-gold-400 font-serif font-bold text-lg py-4 px-6 rounded-xl transition shadow-2xl border border-gold-500/60 flex items-center justify-center gap-2">
-                        <span>Submit RSVP</span>
-                        <i class="fa-solid fa-paper-plane text-sm"></i>
-                    </button>
-                </form>
-
-                <div id="formStatus" class="hidden mt-6 p-4 rounded-xl text-center text-sm font-medium"></div>
             </div>
         </section>
 
@@ -558,8 +500,8 @@
         setInterval(updateCountdown, 1000);
         updateCountdown();
 
-        // Audio Player Controls
-        const audio = document.getElementById('nadaswaramAudio');
+        // Background Audio Controls
+        const audio = document.getElementById('bgAudio');
         const musicToggleBtn = document.getElementById('musicToggleBtn');
         const musicStatusText = document.getElementById('musicStatusText');
         const musicIcon = document.getElementById('musicIcon');
@@ -598,6 +540,7 @@
 
         musicToggleBtn.addEventListener('click', toggleMusic);
 
+        // Autoplay trigger on initial click/tap anywhere (handles browser autoplay restriction)
         function startAudioOnInteraction() {
             if (!isPlaying) {
                 playAudio();
@@ -609,37 +552,10 @@
         document.addEventListener('click', startAudioOnInteraction, { once: true });
         document.addEventListener('touchstart', startAudioOnInteraction, { once: true });
 
-        // RSVP Endpoint
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzk8df2f07G6MQlaZpX0YfHEcmR6tDq1_lW07kb6DN0FSmX5hF-gXW1x4fAdKTeeWLphA/exec";
-
-        const form = document.getElementById('rsvpForm');
-        const submitBtn = document.getElementById('submitBtn');
-        const formStatus = document.getElementById('formStatus');
-
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = `<span>Sending...</span> <i class="fa-solid fa-spinner fa-spin text-sm"></i>`;
-
-            const formData = new FormData(form);
-
-            fetch(SCRIPT_URL, { method: 'POST', body: formData })
-            .then(response => {
-                formStatus.className = "mt-6 p-4 rounded-xl text-center text-sm bg-emerald-100/90 text-emerald-800 border border-emerald-300 backdrop-blur-md";
-                formStatus.innerText = "Thank you! Your RSVP has been registered.";
-                formStatus.classList.remove('hidden');
-                form.reset();
-            })
-            .catch(error => {
-                formStatus.className = "mt-6 p-4 rounded-xl text-center text-sm bg-rose-100/90 text-rose-800 border border-rose-300 backdrop-blur-md";
-                formStatus.innerText = "Error submitting RSVP. Please try again.";
-                formStatus.classList.remove('hidden');
-            })
-            .finally(() => {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = `<span>Submit RSVP</span> <i class="fa-solid fa-paper-plane text-sm"></i>`;
-            });
-        });
+        // Fallback handler for audio loading errors
+        function handleAudioError(elem) {
+            console.warn("Audio file failed to load. Please verify the file path in your git repository.");
+        }
     </script>
 </body>
 </html>
