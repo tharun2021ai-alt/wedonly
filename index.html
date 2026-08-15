@@ -84,6 +84,26 @@
             border-color: rgba(212, 175, 55, 0.8);
         }
 
+        /* Portrait Photo Frame Styling */
+        .portrait-frame {
+            position: relative;
+            background: linear-gradient(135deg, #D4AF37, #8B6508, #E5C158);
+            padding: 6px;
+            border-radius: 2rem;
+            box-shadow: 0 20px 40px -10px rgba(88, 17, 26, 0.3);
+        }
+
+        .portrait-frame::before {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 2.2rem;
+            background: linear-gradient(45deg, #D4AF37, transparent, #E5C158, transparent);
+            z-index: -1;
+            filter: blur(10px);
+            opacity: 0.7;
+        }
+
         /* Golden Aura Glow Effect */
         .gold-glow {
             position: relative;
@@ -186,7 +206,16 @@
             
             <p class="text-maroon-800 font-serif italic text-lg sm:text-xl mb-6">Solicit your presence &amp; blessings on this sacred occasion</p>
             
-            <div class="inline-flex items-center gap-2 bg-maroon-900 text-gold-300 text-xs sm:text-sm font-medium tracking-wider px-6 py-2.5 rounded-full border border-gold-500 shadow-lg mb-10">
+            <!-- Featured Couple Portrait Image -->
+            <div class="my-6 max-w-sm sm:max-w-md w-full px-4">
+                <div class="portrait-frame">
+                    <div class="overflow-hidden rounded-[1.7rem] bg-stone-900">
+                        <img src="IMG_20260808_130919.jpg" alt="Abhiraam and Gayathri" class="w-full h-auto object-cover hover:scale-105 transition-transform duration-700 ease-out">
+                    </div>
+                </div>
+            </div>
+
+            <div class="inline-flex items-center gap-2 bg-maroon-900 text-gold-300 text-xs sm:text-sm font-medium tracking-wider px-6 py-2.5 rounded-full border border-gold-500 shadow-lg my-6">
                 <i class="fa-solid fa-hands-praying text-gold-400"></i>
                 <span>Presents in Blessings only</span>
             </div>
