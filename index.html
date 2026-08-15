@@ -162,6 +162,19 @@
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
+
+        /* Scroll Animation State Classes */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(40px) scale(0.92);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform, opacity;
+        }
+
+        .scroll-reveal.reveal-active {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
     </style>
 </head>
 <body class="bg-kasavu text-stone-800 font-sans antialiased selection:bg-gold-500 selection:text-white pb-20 relative overflow-x-hidden">
@@ -214,16 +227,16 @@
             
             <p class="text-maroon-800 font-serif italic text-lg sm:text-xl mb-6">Solicit your presence &amp; blessings on this sacred occasion</p>
             
-            <!-- Photo Container -->
-            <div class="my-6 px-4 w-full">
-                <div class="portrait-container">
-                    <div class="portrait-frame">
+            <!-- Photo Container with Scroll Transition Classes -->
+            <div class="my-6 px-4 w-full scroll-reveal">
+                <div class="portrait-container group">
+                    <div class="portrait-frame transition-transform duration-700 ease-out group-hover:scale-[1.02]">
                         <div class="w-full h-full overflow-hidden rounded-[1.7rem] bg-stone-900 relative">
                             <img id="coupleImage" 
                                  src="couple.jpg" 
                                  alt="Abhiraam & Gayathri" 
                                  onerror="handleImageError(this)"
-                                 class="w-full h-full object-cover hover:scale-105 transition-transform duration-700 ease-out">
+                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 ease-out">
                         </div>
                     </div>
                 </div>
@@ -413,7 +426,26 @@
 
     <!-- Interactive Script -->
     <script>
-        // Image Fallback Handling (Case Sensitivity Check)
+        // Scroll Intersection Observer for Image Reveal
+        document.addEventListener("DOMContentLoaded", () => {
+            const observerOptions = {
+                root: null,
+                threshold: 0.15
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("reveal-active");
+                    }
+                });
+            }, observerOptions);
+
+            const revealElements = document.querySelectorAll(".scroll-reveal");
+            revealElements.forEach(el => observer.observe(el));
+        });
+
+        // Image Fallback Handling
         function handleImageError(img) {
             console.warn("Retrying image loading with common file extensions...");
             const possibleNames = ['couple.JPG', 'couple.jpeg', 'couple.png', 'IMG_20260808_130919.jpg'];
@@ -555,7 +587,7 @@
         document.addEventListener('click', startAudioOnInteraction, { once: true });
         document.addEventListener('touchstart', startAudioOnInteraction, { once: true });
 
-        // Google Apps Script RSVP Endpoint
+        // RSVP Endpoint
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzk8df2f07G6MQlaZpX0YfHEcmR6tDq1_lW07kb6DN0FSmX5hF-gXW1x4fAdKTeeWLphA/exec";
 
         const form = document.getElementById('rsvpForm');
