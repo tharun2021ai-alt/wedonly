@@ -84,11 +84,20 @@
             border-color: rgba(212, 175, 55, 0.8);
         }
 
-        /* Portrait Photo Frame Styling */
+        /* Rigid Responsive Portrait Frame */
+        .portrait-container {
+            width: 100%;
+            max-width: 320px;
+            aspect-ratio: 3 / 4;
+            margin: 0 auto;
+        }
+
         .portrait-frame {
             position: relative;
+            width: 100%;
+            height: 100%;
             background: linear-gradient(135deg, #D4AF37, #8B6508, #E5C158);
-            padding: 6px;
+            padding: 5px;
             border-radius: 2rem;
             box-shadow: 0 20px 40px -10px rgba(88, 17, 26, 0.3);
         }
@@ -206,11 +215,17 @@
             
             <p class="text-maroon-800 font-serif italic text-lg sm:text-xl mb-6">Solicit your presence &amp; blessings on this sacred occasion</p>
             
-            <!-- Featured Couple Portrait Image -->
-            <div class="my-6 max-w-sm sm:max-w-md w-full px-4">
-                <div class="portrait-frame">
-                    <div class="overflow-hidden rounded-[1.7rem] bg-stone-900">
-                        <img src="IMG_20260808_130919.jpg" alt="Abhiraam and Gayathri" class="w-full h-auto object-cover hover:scale-105 transition-transform duration-700 ease-out">
+            <!-- Fixed Portrait Photo Container with Error Handling & Fallbacks -->
+            <div class="my-6 px-4 w-full">
+                <div class="portrait-container">
+                    <div class="portrait-frame">
+                        <div class="w-full h-full overflow-hidden rounded-[1.7rem] bg-stone-900 relative">
+                            <img id="coupleImage" 
+                                 src="IMG_20260808_130919.jpg" 
+                                 alt="Abhiraam & Gayathri" 
+                                 onerror="handleImageError(this)"
+                                 class="w-full h-full object-cover hover:scale-105 transition-transform duration-700 ease-out">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -399,6 +414,22 @@
 
     <!-- Interactive Script -->
     <script>
+        // Image Fallback Handling Function
+        function handleImageError(img) {
+            console.warn("Local image file failed to load. Trying alternative case names or fallbacks.");
+            const possibleNames = ['img_20260808_130919.jpg', 'IMG_20260808_130919.JPG', 'couple.jpg', 'wedding.jpg'];
+            let currentAttempt = parseInt(img.getAttribute('data-attempt') || 0);
+            
+            if (currentAttempt < possibleNames.length) {
+                img.setAttribute('data-attempt', currentAttempt + 1);
+                img.src = possibleNames[currentAttempt];
+            } else {
+                // If all local file checks fail, render an elegant styled placeholder
+                img.onerror = null; // Prevent loop
+                img.src = "https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&q=80&w=800";
+            }
+        }
+
         // Floating Sparkle Particles Effect (Canvas)
         const canvas = document.getElementById('particleCanvas');
         const ctx = canvas.getContext('2d');
