@@ -201,11 +201,10 @@
         </button>
     </div>
 
-    <!-- Audio Element sourcing from repo -->
-    <audio id="bgAudio" loop preload="auto" onerror="handleAudioError(this)">
-        <source src="meendum_pirantheno.mp3" type="audio/mpeg">
-        <source src="meendum_pirandheno.mp3" type="audio/mpeg">
-        <source src="song.mp3" type="audio/mpeg">
+    <!-- Audio Element matched precisely to your repo file name -->
+    <audio id="bgAudio" loop preload="auto">
+        <source src="Meendum%20Pirandheno.mp3" type="audio/mpeg">
+        <source src="Meendum Pirandheno.mp3" type="audio/mpeg">
     </audio>
 
     <main class="relative z-10 pt-6">
@@ -235,7 +234,7 @@
                     <div class="portrait-frame transition-transform duration-700 ease-out group-hover:scale-[1.02]">
                         <div class="w-full h-full overflow-hidden rounded-[1.7rem] bg-stone-900 relative">
                             <img id="coupleImage" 
-                                 src="couple.jpg" 
+                                 src="couple.png" 
                                  alt="Abhiraam & Gayathri" 
                                  onerror="handleImageError(this)"
                                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 ease-out">
@@ -412,7 +411,7 @@
         // Image Fallback Handling
         function handleImageError(img) {
             console.warn("Retrying image loading with common file extensions...");
-            const possibleNames = ['couple.JPG', 'couple.jpeg', 'couple.png', 'IMG_20260808_130919.jpg'];
+            const possibleNames = ['couple.png', 'couple.JPG', 'couple.jpeg', 'couple.jpg'];
             let currentAttempt = parseInt(img.getAttribute('data-attempt') || 0);
             
             if (currentAttempt < possibleNames.length) {
@@ -540,7 +539,7 @@
 
         musicToggleBtn.addEventListener('click', toggleMusic);
 
-        // Autoplay trigger on initial click/tap anywhere (handles browser autoplay restriction)
+        // Autoplay trigger on initial click/tap anywhere
         function startAudioOnInteraction() {
             if (!isPlaying) {
                 playAudio();
@@ -551,11 +550,6 @@
 
         document.addEventListener('click', startAudioOnInteraction, { once: true });
         document.addEventListener('touchstart', startAudioOnInteraction, { once: true });
-
-        // Fallback handler for audio loading errors
-        function handleAudioError(elem) {
-            console.warn("Audio file failed to load. Please verify the file path in your git repository.");
-        }
     </script>
 </body>
 </html>
