@@ -4,6 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wedding Ceremony | Abhiraam & Gayathri</title>
+    
+    <!-- Open Graph / Social Media Cover Photo Meta Tags -->
+    <meta property="og:title" content="Wedding Ceremony | Abhiraam & Gayathri">
+    <meta property="og:description" content="Solicit your presence & blessings on this sacred occasion.">
+    <meta property="og:image" content="linkcoverphoto.png">
+    <meta property="og:type" content="website">
+
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts -->
@@ -258,7 +265,7 @@
                     <div class="portrait-frame transition-transform duration-700 ease-out group-hover:scale-[1.03] active:scale-95">
                         <div class="w-full h-full overflow-hidden rounded-[1.7rem] bg-stone-900 relative">
                             <img id="coupleImage" 
-                                 src="couple.png" 
+                                 src="linkcoverphoto.png" 
                                  alt="Abhiraam & Gayathri" 
                                  onerror="handleImageError(this)"
                                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 ease-out">
@@ -524,7 +531,7 @@
         });
 
         function handleImageError(img) {
-            const possibleNames = ['couple.png', 'couple.JPG', 'couple.jpeg', 'couple.jpg'];
+            const possibleNames = ['linkcoverphoto.png', 'linkcoverphoto.jpg', 'linkcoverphoto.jpeg', 'linkcoverphoto.JPG', 'couple.png', 'couple.jpg'];
             let currentAttempt = parseInt(img.getAttribute('data-attempt') || 0);
             
             if (currentAttempt < possibleNames.length - 1) {
@@ -611,6 +618,7 @@
                 document.getElementById("seconds").innerText = String(seconds).padStart(2, '0');
             }
         }
+
         setInterval(updateCountdown, 1000);
         updateCountdown();
     </script>
